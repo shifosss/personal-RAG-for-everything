@@ -9,7 +9,7 @@ A local retrieval server that indexes your PDFs, Claude conversation exports and
 ## What it does
 
 - Ingests PDFs, Claude conversation exports (JSON) and git repositories (HEAD tree only) into named corpora. Re-running an ingest on unchanged content skips it; `--force` re-ingests.
-- Keeps each corpus in its own SQLite database (`chunks.db`, with an FTS5 index) and its own LanceDB table (`vectors.lance`). A query names one corpus and reads only that one.
+- Keeps each corpus in its own SQLite database (`chunks.db`, with an FTS5 index) and its own LanceDB database (`vectors.lance`, holding one table named `embedding`). A query names one corpus and reads only that one.
 - Retrieves with BM25 and BGE-M3 dense search, fused by reciprocal rank fusion. Reranking with Claude Haiku is on by default and takes effect only when `ANTHROPIC_API_KEY` is set.
 - Serves the same index through a CLI (`ingest`, `query`, `list`, `forget`, `status`, `serve`, `config`, `version`, `eval`), a local FastAPI backend (`/v1/*`) and a TypeScript MCP stdio server with 7 tools.
 - Reads sources without modifying them: output goes to the contextd data home (`~/.contextd/`, override with `CONTEXTD_HOME`), and a CI test hashes the source tree before and after ingest for the PDF and Claude export adapters.
@@ -46,7 +46,7 @@ cd ..
 uv run contextd serve
 ```
 
-`contextd serve` needs `mcp-server/dist/index.js` and stops with a build instruction if it is missing. Point the client at the clone. Claude Code (`.mcp.json` or `~/.claude.json`):
+`contextd serve` needs `mcp-server/dist/index.js` and stops with a build instruction if it is missing. Point the client at the clone. The Claude Code and Codex snippets below are untested. Claude Code (`.mcp.json` or `~/.claude.json`):
 
 ```json
 {
@@ -67,7 +67,7 @@ command = "uv"
 args = ["--directory", "/path/to/contextd", "run", "contextd", "serve"]
 ```
 
-The server is multi-corpus. Every tool takes `corpus` as a parameter, and `list_corpora` shows what exists. The 7 tools are `search_corpus`, `fetch_chunk`, `expand_context`, `get_edges`, `list_sources`, `get_source` and `list_corpora`. The full walkthrough is in the [User Guide](./docs/USER_GUIDE.md).
+The server is multi-corpus. Every tool except `list_corpora` takes `corpus` as a parameter, and `list_corpora` shows what exists. The 7 tools are `search_corpus`, `fetch_chunk`, `expand_context`, `get_edges`, `list_sources`, `get_source` and `list_corpora`. The full walkthrough is in the [User Guide](./docs/USER_GUIDE.md).
 
 ## How it works
 
@@ -95,9 +95,9 @@ The MCP server holds no index. It forwards every tool call to the HTTP backend o
 Two things connect to the network by default.
 
 - **Model download.** The first ingest or query downloads the BGE-M3 model and tokenizer from `huggingface.co`. After the cache is warm, this does not repeat.
-- **Reranking.** `query` and the MCP `search_corpus` tool rerank by default. If `ANTHROPIC_API_KEY` is set in the environment or in a `.env` file, up to 50 candidate chunks (each cut to 800 tokens) and the query are sent to the Anthropic API. With no key the call is skipped and the query still succeeds.
+- **Reranking.** `query` and the MCP `search_corpus` tool rerank by default. If `ANTHROPIC_API_KEY` is set in the environment or in a `.env` file, up to 50 candidate chunks (each cut to 3,200 characters, about 800 tokens) are sent to the Anthropic API along with the query text. With no key the call is skipped and the query still succeeds.
 
-To turn reranking off, pass `--no-rerank` on the CLI, or `rerank: false` in the `search_corpus` call. `--rewrite` is off by default; when enabled it sends the query text to Anthropic. `contextd eval` also calls Anthropic for its judge unless you pass `--no-judge`.
+To turn reranking off, pass `--no-rerank` on the CLI, or `rerank: false` in the `search_corpus` call. `--rewrite` is off by default; when enabled it sends the query text to Anthropic. `contextd eval` also reranks by default, so it sends chunk text to Anthropic unless you pass `--no-rerank`, and it calls Anthropic for its judge unless you pass `--no-judge`.
 
 The code contains no telemetry, analytics or crash-reporting client. With no key set and a warm model cache, a CLI query opened no outbound connection in a probe run with the embedder and tokenizer stubbed.
 
