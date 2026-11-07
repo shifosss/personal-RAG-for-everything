@@ -30,7 +30,7 @@ The `contextd` PRD in `docs/PRDs/` is the default spec for v0.1. Before choosing
 - Do not summarize sections you did not read. If grep misses, say so.
 - Do not paraphrase scope. Quote the PRD's exact wording on Must-have / Should-have / deferred status.
 - If the topic spans the Py↔TS boundary (PRD §13.7.3), flag both sides.
-- If the topic touches regulated data (SickKids / PHIPA), refuse to conflate it with the personal corpus — cite §2.8.3 and §4.2.
+- If the topic touches regulated data (PHIPA), refuse to conflate it with the personal corpus — cite §2.8.3 and §4.2.
 
 ## Example
 
