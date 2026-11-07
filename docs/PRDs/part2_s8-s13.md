@@ -156,7 +156,7 @@ The surface subsystem exposes retrieval and ingestion to external callers: MCP-c
 
 ### 8.5.3 CLI (secondary surface)
 
-[M] A `contextd` binary installable via `pipx install contextd` or equivalent. [M] Subcommands: `ingest`, `query`, `list`, `forget`, `status`. [S] Additional subcommands: `watch`, `serve`, `serve-ui`, `stats`, `doctor`. [M] Output formatting defaults to human-readable; a `--json` flag produces machine-parseable output for scripting. [M] A help system (`contextd --help`, `contextd <subcommand> --help`) covers every flag and subcommand.
+[M] A `contextd` binary installable via `pipx install <published-name>` or equivalent. [M] Subcommands: `ingest`, `query`, `list`, `forget`, `status`. [S] Additional subcommands: `watch`, `serve`, `serve-ui`, `stats`, `doctor`. [M] Output formatting defaults to human-readable; a `--json` flag produces machine-parseable output for scripting. [M] A help system (`contextd --help`, `contextd <subcommand> --help`) covers every flag and subcommand.
 
 ### 8.5.4 Web UI (tertiary surface)
 
@@ -295,7 +295,7 @@ Targets are tiered: **baseline** (must hold for v0.1 to ship), **stretch** (desi
 
 ### 9.5.1 Installation
 
-- **Baseline (v0.1):** `pipx install contextd` or `uv tool install contextd` succeeds on a fresh Ubuntu 22.04, Ubuntu 24.04, macOS 14+, and WSL2 with Ubuntu 22.04 environment. Install completes in under 3 minutes on a reasonable broadband connection.
+- **Baseline (v0.1):** `pipx install <published-name>` or `uv tool install <published-name>` succeeds on a fresh Ubuntu 22.04, Ubuntu 24.04, macOS 14+, and WSL2 with Ubuntu 22.04 environment. Install completes in under 3 minutes on a reasonable broadband connection.
 - **Stretch (v0.1):** A one-liner `curl | sh` installer that handles Python version setup and pipx install in one step.
 
 ### 9.5.2 Time to first successful query
@@ -780,7 +780,7 @@ Never updated or deleted.
       "source": {
         "id": 412,
         "type": "pdf",
-        "path": "/home/alex/papers/fu_2024_clinical_nlp.pdf",
+        "path": "~/papers/fu_2024_clinical_nlp.pdf",
         "title": "Fine-tuning FLAN-T5 for pediatric clinical note extraction",
         "ingested_at": "2026-04-02T14:22:11Z",
         "content_hash": "sha256:3a2f...ef91"

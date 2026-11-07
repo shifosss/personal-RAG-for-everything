@@ -184,7 +184,7 @@ Engineering consequences:
 
 ### 2.8.3 HIPAA and sensitive sector data
 
-For the author specifically: the SickKids clinical NLP work must not be ingested into `contextd` as configured for personal use, because the data is covered by HIPAA-equivalent obligations (Canadian PHIPA in Ontario) and leaves the institution's controlled environment only under specific protocols. The tool must make it easy to maintain strict separation between a personal corpus and any regulated professional corpus. This is handled via separate named corpora with no cross-corpus retrieval by default, rather than a single unified index.
+For the author specifically: the author's regulated clinical NLP work must not be ingested into `contextd` as configured for personal use, because the data is covered by HIPAA-equivalent obligations (Canadian PHIPA in Ontario) and leaves the institution's controlled environment only under specific protocols. The tool must make it easy to maintain strict separation between a personal corpus and any regulated professional corpus. This is handled via separate named corpora with no cross-corpus retrieval by default, rather than a single unified index.
 
 Engineering consequence: the data model treats "corpus" as a first-class partition with its own directory, its own index, and its own MCP endpoint, so a user can run one `contextd` for personal work and separately handle regulated data under institutional systems without commingling.
 
@@ -288,7 +288,7 @@ Each tier is a release gate, not a marketing tier. The tool only expands outward
 
 ## 4.2 Primary user profile: Alex Zhang
 
-**Role:** Third-year CS undergraduate, Data Science Specialist at University of Toronto (ASIP co-op stream). Currently Research Student at SickKids Hospital (clinical NLP — MedGemma-27B LoRA fine-tuning on EMR data).
+**Role:** Third-year CS undergraduate, Data Science Specialist at University of Toronto (ASIP co-op stream). Currently a research student in clinical NLP.
 
 **AI tool footprint:** Claude Code, Codex CLI, Claude.ai web, ChatGPT, occasional Gemini. Multi-agent Claude Code setup with 13 subagents across opus/sonnet/haiku tiers. Uses MCP servers extensively.
 
@@ -374,7 +374,7 @@ For v0.3+, we may need a GUI installer and a setup wizard. Explicitly deferred.
 
 ## 4.7 Recruiting for later phases
 
-v0.2 recruiting: the author's own research network (SickKids, U of T, lab collaborators), plus organic discovery via the GitHub README, plus a Show HN / r/LocalLLaMA post timed with a working demo.
+v0.2 recruiting: the author's own research network (U of T, lab collaborators), plus organic discovery via the GitHub README, plus a Show HN / r/LocalLLaMA post timed with a working demo.
 
 v0.3+ recruiting: blog posts targeted at each tertiary segment, YC AI Startup School audience as a concentrated gathering of the ICP.
 
@@ -477,7 +477,7 @@ MoSCoW prioritization. Every goal has an attached success criterion — somethin
 
 **M5. MCP server exposing core tools.** *Success:* A running `contextd` MCP server is callable from both Claude Code and Codex CLI. At minimum, `search_corpus`, `get_source`, and `list_corpora` tools are implemented and return results under the Section 9 latency targets.
 
-**M6. CLI for ingestion and query.** *Success:* `contextd ingest <path>`, `contextd query "..."`, `contextd list`, and `contextd status` all work end-to-end. A new user can go from `pipx install contextd` to a first successful query in under 5 minutes following the README.
+**M6. CLI for ingestion and query.** *Success:* `contextd ingest <path>`, `contextd query "..."`, `contextd list`, and `contextd status` all work end-to-end. A new user can go from `pipx install <published-name>` to a first successful query in under 5 minutes following the README.
 
 **M7. Local-only by default, no telemetry.** *Success:* Running `contextd` with no configuration makes zero outbound network requests. Verified with `tcpdump` or equivalent during a 10-minute ingestion + query session. Any cloud call is opt-in via explicit configuration.
 
@@ -594,7 +594,7 @@ Critical behaviors this narrative requires:
 
 ## 7.3 Workflow narrative 2: recovering a prior debugging session
 
-Alex is hitting a CUDA architecture mismatch on the SickKids HPC cluster while running a training job on H100 nodes. He has a vague memory that he encountered something similar in March during the Baichuan-M3-235B fine-tuning work — he solved it, committed the fix, and moved on. He does not remember which repo it was in, which Claude session discussed it, or what the specific fix was.
+Alex is hitting a CUDA architecture mismatch on an HPC cluster while running a training job on H100 nodes. He has a vague memory that he encountered something similar in March during the Baichuan-M3-235B fine-tuning work — he solved it, committed the fix, and moved on. He does not remember which repo it was in, which Claude session discussed it, or what the specific fix was.
 
 Without `contextd`, this means: grepping through `~/.claude/projects/` for keywords like "sm_90" or "H100", scrolling through git log across three candidate repos, and possibly re-deriving the solution from scratch because the search didn't find the right artifact.
 
@@ -698,7 +698,7 @@ The narratives above capture flagship workflows. The following list catalogs the
 
 ### Deployment and ops stories
 
-- **[M]** As a user, I want a single-command install (`pipx install contextd` or `uv tool install contextd`), so that setup isn't a project.
+- **[M]** As a user, I want a single-command install (`pipx install <published-name>` or `uv tool install <published-name>`), so that setup isn't a project.
 - **[M]** As a user, I want the tool to work on Linux, macOS, and Windows via WSL2, so that my actual development environment is supported.
 - **[S]** As a user, I want a watch-mode daemon that re-ingests changed files automatically, so that my corpus stays current without manual action.
 - **[C]** As a user, I want a `contextd doctor` command that checks dependencies and configuration, so that setup problems are self-diagnosable.

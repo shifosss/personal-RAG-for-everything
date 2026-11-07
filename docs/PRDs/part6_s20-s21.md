@@ -290,7 +290,7 @@ YC partners reading the application will skim. The order of information matters.
 
 **The demo (second sentence or link):** the 90-second video from §16.8. The moment where the same query flows through Claude Code and Codex with identical results is the visual proof of the thesis.
 
-**The builder story (third paragraph):** Alex's background matters here — YC partners review thousands of applications; write what is true, not what sounds impressive. The authentic version: third-year CS student at UofT, current research student at SickKids doing clinical NLP, built `contextd` because he was personally losing context across Claude, Codex, and Cursor every day. The specificity is the credibility.
+**The builder story (third paragraph):** Alex's background matters here — YC partners review thousands of applications; write what is true, not what sounds impressive. The authentic version: third-year CS student at UofT, current research student doing clinical NLP, built `contextd` because he was personally losing context across Claude, Codex, and Cursor every day. The specificity is the credibility.
 
 **The traction (fourth paragraph):** whatever is true at application time. GitHub stars, PyPI installs, external users if any. If traction is thin, acknowledge it honestly and compensate with evidence of personal use depth ("I've used it for N queries across M sessions over K weeks").
 

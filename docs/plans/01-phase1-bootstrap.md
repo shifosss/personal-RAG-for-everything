@@ -167,7 +167,7 @@ data/
 - [ ] **Step 4: `uv sync` to generate `uv.lock`**
 
 ```bash
-cd "/Users/chenzhang/Alex's Codebases/personal-RAG-for-everything"
+cd personal-RAG-for-everything
 uv sync --dev
 ```
 

@@ -18,7 +18,7 @@ The PRDs remain the source of truth for intent; when code diverges, the reason b
 ## Scope & guardrails
 
 - **v0.1 scope is fixed by PRD §16** (Phases 1–5, Must-haves M1–M10, two Should-haves S5/S6). Out-of-scope work is deferred to v0.2+ unless explicitly reopened. Flag scope creep, don't silently accumulate it.
-- **Named-corpus separation is non-negotiable.** Personal corpus and any SickKids / PHIPA-regulated clinical data must never share an index or ingestion path. Default `contextd` usage here is personal-only; clinical work stays inside the institutional environment.
+- **Named-corpus separation is non-negotiable.** Personal corpus and any PHIPA-regulated clinical data must never share an index or ingestion path. Default `contextd` usage here is personal-only; clinical work stays inside the institutional environment.
 - **Local-first, no telemetry.** No outbound network calls by default, no analytics, no crash reporting. Network is opt-in per source (e.g., Anthropic API for reranking is gated on user config).
 - **Python ↔ TypeScript boundary.** Python owns storage, embeddings, retrieval, ingestion; runs FastAPI on `127.0.0.1:8787`. TypeScript owns the MCP stdio server (`mcp-server/`) and forwards to Python over localhost HTTP via `undici`. They never import each other.
 

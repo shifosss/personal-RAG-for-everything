@@ -104,7 +104,7 @@ Chunk(
 
 # SOURCE
 Source(
-  path="/home/alex/papers/fu_2024.pdf",
+  path="~/papers/fu_2024.pdf",
   source_type="pdf",
   title="A Hybrid Method for Clinical Negation Detection",
   metadata={"pdf_authors_list": "Li Fu, Jane Smith, Mohammed Khan"},
@@ -208,7 +208,7 @@ Output:
 ```python
 # SOURCE
 Source(
-  path="/home/alex/claude-exports/2026-03.json#conversations/8fa3-...",
+  path="~/claude-exports/2026-03.json#conversations/8fa3-...",
   source_type="claude_export",
   title="MoE quantization incompatibility",
 )
@@ -316,7 +316,7 @@ Output:
 ```python
 # SOURCE
 Source(
-  path="/home/alex/code/contextd",
+  path="~/code/contextd",
   source_type="git_repo",
   title="contextd",
   metadata={
@@ -399,7 +399,7 @@ Input (`clinical-notes.md`):
 ```markdown
 ---
 tags: [clinical, nlp, med]
-project: SickKids MedGemma
+project: clinical-nlp
 ---
 
 # Clinical NLP Notes
@@ -893,7 +893,7 @@ Some fail → `v0.1.0-rc1` with documented issues, iterate Day 3.
 ```
 [Terminal opens in WSL2, clean directory]
 
-$ pipx install contextd
+$ pipx install <published-name>
   installing from PyPI...
   contextd 0.1.0 installed
 

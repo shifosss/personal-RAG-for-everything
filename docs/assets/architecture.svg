@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="780" viewBox="0 0 1500 780" role="img" aria-labelledby="t d">
+  <title id="t">contextd architecture</title>
+  <desc id="d">Sources are ingested through per-type adapters and a BGE-M3 embedder into one SQLite database and one LanceDB table per corpus. Retrieval runs FTS5 BM25 and dense search in parallel, fuses them with reciprocal rank fusion, and optionally reranks with Claude Haiku. Results are served by the CLI, a FastAPI HTTP backend, and a TypeScript MCP server with 7 tools.</desc>
+  <style>
+    .serif { font-family: "Iowan Old Style", Palatino, Georgia, serif; }
+    .sans { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+    .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+    .h { font-size: 36px; fill: #15211f; }
+    .lane { font-size: 13px; letter-spacing: 1.5px; fill: #46544f; font-weight: 600; }
+    .t { font-size: 17px; font-weight: 600; fill: #eef6f4; }
+    .s { font-size: 14px; fill: #b5d0ca; }
+    .m { font-size: 13px; fill: #b5d0ca; }
+    .ti { font-size: 17px; font-weight: 600; fill: #15211f; }
+    .si { font-size: 14px; fill: #15211f; }
+    .mi { font-size: 13px; fill: #15211f; }
+    .tm { font-size: 15px; font-weight: 600; fill: #eef6f4; }
+    .note { font-size: 14px; fill: #46544f; }
+    .src { font-size: 12px; fill: #46544f; }
+    .box { fill: #0b4f4c; }
+    .hot { fill: #f3c969; }
+    .frame { fill: none; stroke: #d5dedb; stroke-width: 2; }
+    .arrow { stroke: #46544f; stroke-width: 2; fill: none; marker-end: url(#a); }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#46544f"/>
+    </marker>
+  </defs>
+  <rect width="1500" height="780" fill="#ffffff"/>
+
+  <text x="40" y="52" class="serif h">contextd: ingest, store, retrieve, serve</text>
+
+  <text x="40" y="100" class="sans lane">SOURCES</text>
+  <text x="300" y="100" class="sans lane">INGEST</text>
+  <text x="600" y="100" class="sans lane">STORE, ONE PAIR PER CORPUS</text>
+  <text x="930" y="100" class="sans lane">HYBRID RETRIEVAL</text>
+  <text x="1260" y="100" class="sans lane">INTERFACES</text>
+
+  <!-- sources -->
+  <rect class="box" x="40" y="130" width="210" height="80" rx="4"/>
+  <text x="58" y="162" class="sans t">PDF files</text>
+  <text x="58" y="188" class="mono m">pdf.py</text>
+  <rect class="box" x="40" y="230" width="210" height="80" rx="4"/>
+  <text x="58" y="262" class="sans t">Claude export JSON</text>
+  <text x="58" y="288" class="mono m">claude_export.py</text>
+  <rect class="box" x="40" y="330" width="210" height="80" rx="4"/>
+  <text x="58" y="362" class="sans t">Git repo, HEAD tree</text>
+  <text x="58" y="388" class="mono m">git_repo.py</text>
+
+  <!-- ingest -->
+  <rect class="box" x="300" y="150" width="250" height="130" rx="4"/>
+  <text x="318" y="184" class="sans t">IngestionPipeline</text>
+  <text x="318" y="208" class="mono m">ingest/pipeline.py</text>
+  <text x="318" y="236" class="sans s">chunk, hash, skip unchanged</text>
+  <text x="318" y="258" class="sans s">source files are never written</text>
+  <rect class="box" x="300" y="320" width="250" height="90" rx="4"/>
+  <text x="318" y="354" class="sans t">BGE-M3 embedder</text>
+  <text x="318" y="378" class="mono m">ingest/embedder.py</text>
+  <path class="arrow" d="M250,170 H300"/>
+  <path class="arrow" d="M250,270 H275 V230 H300"/>
+  <path class="arrow" d="M250,370 H275 V260 H300" />
+  <path class="arrow" d="M425,280 V320"/>
+
+  <!-- store -->
+  <rect class="frame" x="600" y="115" width="280" height="420" rx="4"/>
+  <text x="616" y="142" class="mono note">corpora/&lt;corpus&gt;/</text>
+  <rect class="box" x="620" y="165" width="240" height="170" rx="4"/>
+  <text x="638" y="198" class="sans t">chunks.db</text>
+  <text x="638" y="224" class="sans s">SQLite</text>
+  <text x="638" y="250" class="mono m">source, chunk, edge</text>
+  <text x="638" y="274" class="mono m">chunk_fts (FTS5)</text>
+  <text x="638" y="298" class="mono m">audit_log</text>
+  <rect class="box" x="620" y="365" width="240" height="110" rx="4"/>
+  <text x="638" y="398" class="sans t">vectors.lance</text>
+  <text x="638" y="424" class="sans s">LanceDB, dense vectors</text>
+  <text x="616" y="512" class="sans note">No query reads two corpora.</text>
+  <path class="arrow" d="M550,215 H600"/>
+  <path class="arrow" d="M550,365 H600"/>
+
+  <!-- retrieval -->
+  <rect class="frame" x="930" y="115" width="270" height="515" rx="4"/>
+  <text x="946" y="142" class="mono note">retrieve/pipeline.py</text>
+  <rect class="box" x="950" y="160" width="230" height="70" rx="4"/>
+  <text x="966" y="190" class="sans t">sparse_search</text>
+  <text x="966" y="214" class="sans s">FTS5 BM25</text>
+  <rect class="box" x="950" y="255" width="230" height="70" rx="4"/>
+  <text x="966" y="285" class="sans t">dense_search</text>
+  <text x="966" y="309" class="sans s">BGE-M3 vectors</text>
+  <rect class="box" x="950" y="365" width="230" height="70" rx="4"/>
+  <text x="966" y="395" class="mono tm">reciprocal_rank_fusion</text>
+  <text x="966" y="419" class="sans s">RRF, top 50 candidates</text>
+  <rect class="hot" x="950" y="475" width="230" height="130" rx="4"/>
+  <text x="966" y="505" class="sans ti">rerank (optional)</text>
+  <text x="966" y="529" class="mono mi">retrieve/rerank.py</text>
+  <text x="966" y="553" class="sans si">Claude Haiku, on by default.</text>
+  <text x="966" y="573" class="sans si">Sends chunks to Anthropic</text>
+  <text x="966" y="593" class="sans si">only if an API key is set.</text>
+  <path class="arrow" d="M860,195 H950"/>
+  <path class="arrow" d="M860,420 H905 V290 H950"/>
+  <path class="arrow" d="M1065,325 V365"/>
+  <path class="arrow" d="M1180,195 H1190 V400 H1180"/>
+  <path class="arrow" d="M1065,435 V475"/>
+
+  <!-- interfaces -->
+  <rect class="box" x="1260" y="150" width="200" height="120" rx="4"/>
+  <text x="1276" y="182" class="sans t">CLI</text>
+  <text x="1276" y="206" class="mono m">contextd (typer)</text>
+  <text x="1276" y="230" class="mono m">ingest, query, list,</text>
+  <text x="1276" y="250" class="mono m">forget, status, serve</text>
+  <rect class="box" x="1260" y="300" width="200" height="90" rx="4"/>
+  <text x="1276" y="332" class="sans t">HTTP backend</text>
+  <text x="1276" y="356" class="mono m">FastAPI, /v1/*</text>
+  <text x="1276" y="376" class="mono m">127.0.0.1:8787</text>
+  <rect class="box" x="1260" y="440" width="200" height="212" rx="4"/>
+  <text x="1276" y="472" class="sans t">MCP stdio server</text>
+  <text x="1276" y="496" class="sans s">TypeScript, 7 tools</text>
+  <text x="1276" y="522" class="mono m">search_corpus</text>
+  <text x="1276" y="541" class="mono m">fetch_chunk</text>
+  <text x="1276" y="560" class="mono m">expand_context</text>
+  <text x="1276" y="579" class="mono m">get_edges</text>
+  <text x="1276" y="598" class="mono m">list_sources</text>
+  <text x="1276" y="617" class="mono m">get_source</text>
+  <text x="1276" y="636" class="mono m">list_corpora</text>
+  <path class="arrow" d="M1200,210 H1260"/>
+  <path class="arrow" d="M1200,345 H1260"/>
+  <path class="arrow" d="M1360,440 V390"/>
+  <text x="1368" y="420" class="sans src">forwards</text>
+
+  <!-- egress -->
+  <rect class="hot" x="40" y="668" width="14" height="14"/>
+  <text x="64" y="680" class="sans note">Leaves the machine: the first-run BGE-M3 model and tokenizer download from huggingface.co, and rerank requests to Anthropic when ANTHROPIC_API_KEY is set.</text>
+  <text x="64" y="704" class="sans note">Turn rerank off with --no-rerank on the CLI or rerank: false in a tool call. Query rewrite (--rewrite, off by default) also sends the query to Anthropic.</text>
+  <text x="40" y="752" class="sans src">Source: module and table names from contextd/ and mcp-server/src/ at master cf615dc. Diagram, not a measurement.</text>
+</svg>

@@ -319,7 +319,7 @@ The point is that the dashboard is legible at a glance and stays under one page.
 Honest exclusions:
 
 - **Happiness or flow.** No way to measure these reliably from outside. Proxied loosely via the self-rated weekly value.
-- **Opportunity cost.** Hours spent on `contextd` aren't hours spent on the SickKids pipeline or coursework. Not tracked formally; weighed intuitively during weekly reviews.
+- **Opportunity cost.** Hours spent on `contextd` aren't hours spent on research or coursework. Not tracked formally; weighed intuitively during weekly reviews.
 - **Impact on publications or co-op outcomes.** Attribution is impossible; multi-month lag makes measurement meaningless.
 - **Competitive positioning metrics.** Market share, segment penetration — not relevant at this scale.
 
@@ -491,7 +491,7 @@ Category §19.6 is a standalone threat model for prompt injection via ingested c
 
 ### 19.3.4 Inadvertent ingestion of regulated data (L4)
 
-**Description:** Alex (or a future user) accidentally ingests clinical data covered by HIPAA/PHIPA into a personal corpus — a real concern given the SickKids overlap.
+**Description:** Alex (or a future user) accidentally ingests clinical data covered by HIPAA/PHIPA into a personal corpus — a real concern given the author's clinical research work.
 
 **L:** medium. **I:** high. **Severity: 6.**
 
@@ -642,7 +642,7 @@ Category §19.6 is a standalone threat model for prompt injection via ingested c
 
 ### 19.5.6 Alex's time budget collapses (A6)
 
-**Description:** SickKids work, coursework, or co-op obligations consume Alex's bandwidth. The project stalls at v0.1 with no maintenance energy for 3+ months.
+**Description:** Research work, coursework, or co-op obligations consume Alex's bandwidth. The project stalls at v0.1 with no maintenance energy for 3+ months.
 
 **L:** medium–high (student time is genuinely precarious). **I:** medium. **Severity: 4.**
 

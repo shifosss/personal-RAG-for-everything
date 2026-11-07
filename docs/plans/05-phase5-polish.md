@@ -11,7 +11,7 @@
 **Prereqs:** Phase 4 complete; all 10 Must-haves green; `ANTHROPIC_API_KEY` available for LLM-as-judge scoring (CI job will skip judge if missing and fall back to Recall@5 + MRR only).
 
 **Exit gate (PRD §16.7):**
-- README walks a new user from `pipx install contextd` → first successful query in under 5 minutes (manually verified on a clean VM or container)
+- README walks a new user from `pipx install <published-name>` → first successful query in under 5 minutes (manually verified on a clean VM or container)
 - 90-second demo video recorded, checked in at `docs/demo/v0.1.mp4` (or linked externally; either way the README embeds it)
 - 30-query eval: **Recall@5 ≥ 0.80**, Recall@10 ≥ 0.90, MRR ≥ 0.60, LLM-judge aggregate ≥ 6.5 — all passing (M4 final)
 - Privacy CI: `tests/privacy/test_no_outbound_network.py` and `tests/privacy/test_non_mutation.py` green
@@ -542,7 +542,7 @@ Sections (in order):
 3. **Install.**
 
    ```bash
-   pipx install contextd           # or: uv tool install contextd
+   pipx install <published-name>           # or: uv tool install <published-name>
    contextd --help
    ```
 
@@ -590,7 +590,7 @@ git commit -m "docs: full README with TTFQ-measured install path and MCP integra
 
 - [ ] **Step 1:** Follow the PRD §16.8 script verbatim:
   - Fresh terminal in WSL2 or macOS
-  - `pipx install contextd`
+  - `pipx install <published-name>`
   - `contextd ingest ~/papers/ --type pdf --corpus research` → 47 PDFs
   - `contextd ingest ~/claude-exports/2026-03.json --type claude_export --corpus research`
   - `contextd query "how did Fu handle negation" --limit 3`
